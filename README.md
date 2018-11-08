@@ -93,7 +93,7 @@ A series of tests is included in the [tests folder](https://github.com/huggingfa
 
 You can run the tests with the command:
 ```bash
-pytest -sv ./tests/
+python -m pytest -sv tests/
 ```
 
 ## Training on large batches: gradient accumulation, multi-GPU and distributed training
@@ -166,7 +166,7 @@ python run_classifier.py \
   --output_dir /tmp/mrpc_output/
 ```
 
-Our test ran on a few seeds with [the original implementation hyper-parameters](https://github.com/google-research/bert#sentence-and-sentence-pair-classification-tasks) gave evaluation results between 82 and 87.
+Our test ran on a few seeds with [the original implementation hyper-parameters](https://github.com/google-research/bert#sentence-and-sentence-pair-classification-tasks) gave evaluation results between 84% and 88%.
 
 The second example fine-tunes `BERT-Base` on the SQuAD question answering task.
 
@@ -194,5 +194,3 @@ python run_squad.py \
   --doc_stride 128 \
   --output_dir ../debug_squad/
 ```
-
-There is currently a bug in the `run_squad.py` script that we are investigating. The reported numbers are very low (F1 of 41.8 and exact match of 21.7) even though the correct answer is usually in the n-best predictions. We are investigating that right now on the develop branch, follow [this issue](https://github.com/huggingface/pytorch-pretrained-BERT/issues/3) for more updates.
