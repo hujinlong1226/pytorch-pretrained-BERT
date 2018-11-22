@@ -99,7 +99,7 @@ from pytorch_pretrained_bert import BertTokenizer, BertModel, BertForMaskedLM
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 # Tokenized input
-tokenized_text = "Who was Jim Henson ? Jim Henson was a puppeteer"
+text = "Who was Jim Henson ? Jim Henson was a puppeteer"
 tokenized_text = tokenizer.tokenize(text)
 
 # Mask a token that we will try to predict back with `BertForMaskedLM`
@@ -483,7 +483,7 @@ Please follow the instructions given in the notebooks to run and modify them.
 
 A command-line interface is provided to convert a TensorFlow checkpoint in a PyTorch dump of the `BertForPreTraining` class  (see above).
 
-You can convert any TensorFlow checkpoint for BERT (in particular [the pre-trained models released by Google](https://github.com/google-research/bert#pre-trained-models)) in a PyTorch save file by using the [`convert_tf_checkpoint_to_pytorch.py`](convert_tf_checkpoint_to_pytorch.py) script.
+You can convert any TensorFlow checkpoint for BERT (in particular [the pre-trained models released by Google](https://github.com/google-research/bert#pre-trained-models)) in a PyTorch save file by using the [`./pytorch_pretrained_bert/convert_tf_checkpoint_to_pytorch.py`](convert_tf_checkpoint_to_pytorch.py) script.
 
 This CLI takes as input a TensorFlow checkpoint (three files starting with `bert_model.ckpt`) and the associated configuration file (`bert_config.json`), and creates a PyTorch model for this configuration, loads the weights from the TensorFlow checkpoint in the PyTorch model and saves the resulting model in a standard PyTorch save file that can be imported using `torch.load()` (see examples in `extract_features.py`, `run_classifier.py` and `run_squad.py`).
 
@@ -497,9 +497,9 @@ Here is an example of the conversion process for a pre-trained `BERT-Base Uncase
 export BERT_BASE_DIR=/path/to/bert/uncased_L-12_H-768_A-12
 
 pytorch_pretrained_bert convert_tf_checkpoint_to_pytorch \
-  --tf_checkpoint_path $BERT_BASE_DIR/bert_model.ckpt \
-  --bert_config_file $BERT_BASE_DIR/bert_config.json \
-  --pytorch_dump_path $BERT_BASE_DIR/pytorch_model.bin
+  $BERT_BASE_DIR/bert_model.ckpt \
+  $BERT_BASE_DIR/bert_config.json \
+  $BERT_BASE_DIR/pytorch_model.bin
 ```
 
 You can download Google's pre-trained models for the conversion [here](https://github.com/google-research/bert#pre-trained-models).

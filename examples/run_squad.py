@@ -842,8 +842,8 @@ def main():
         param_optimizer = list(model.named_parameters())
     no_decay = ['bias', 'gamma', 'beta']
     optimizer_grouped_parameters = [
-        {'params': [p for n, p in param_optimizer if n not in no_decay], 'weight_decay_rate': 0.01},
-        {'params': [p for n, p in param_optimizer if n in no_decay], 'weight_decay_rate': 0.0}
+        {'params': [p for n, p in param_optimizer if not any(nd in n for nd in no_decay)], 'weight_decay_rate': 0.01},
+        {'params': [p for n, p in param_optimizer if any(nd in n for nd in no_decay)], 'weight_decay_rate': 0.0}
         ]
     optimizer = BertAdam(optimizer_grouped_parameters,
                          lr=args.learning_rate,
@@ -898,7 +898,8 @@ def main():
                         if args.fp16 and args.loss_scale != 1.0:
                             # scale down gradients for fp16 training
                             for param in model.parameters():
-                                param.grad.data = param.grad.data / args.loss_scale
+                                if param.grad is not None:
+                                    param.grad.data = param.grad.data / args.loss_scale
                         is_nan = set_optimizer_params_grad(param_optimizer, model.named_parameters(), test_nan=True)
                         if is_nan:
                             logger.info("FP16 TRAINING: Nan in gradients, reducing loss scaling")
